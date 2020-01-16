@@ -1,7 +1,8 @@
-﻿using IuguCoreIntegration.Charges;
+﻿using IuguCoreIntegration.Invoices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volo.Abp;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.Users;
 
 namespace IuguCoreIntegration.EntityFrameworkCore
@@ -13,10 +14,10 @@ namespace IuguCoreIntegration.EntityFrameworkCore
             Check.NotNull(builder, nameof(builder));
 
             /* Configure your own tables/entities inside here */
-
-            builder.Entity<Invoice>(b =>
+            builder.Entity<Invoice>(i =>
             {
-                b.ToTable(IuguCoreIntegrationConsts.DbTablePrefix + "Invoices", IuguCoreIntegrationConsts.DbSchema);
+                i.ToTable("Invoices", IuguCoreIntegrationConsts.DbSchema);
+                i.ConfigureByConvention(); //auto configure for the base class props
             });
         }
 

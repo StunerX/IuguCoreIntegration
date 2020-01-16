@@ -4,7 +4,7 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.Users.EntityFrameworkCore;
-using IuguCoreIntegration.Charges;
+using IuguCoreIntegration.Invoices;
 
 namespace IuguCoreIntegration.EntityFrameworkCore
 {

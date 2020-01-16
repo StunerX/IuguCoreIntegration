@@ -8,7 +8,7 @@ namespace IuguCoreIntegration.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppInvoices",
+                name: "Invoices",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -26,14 +26,14 @@ namespace IuguCoreIntegration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppInvoices", x => x.Id);
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AppInvoices");
+                name: "Invoices");
         }
     }
 }

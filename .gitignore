@@ -257,3 +257,4 @@ src/IuguCoreIntegration.Web.Host/Logs/*
 src/IuguCoreIntegration.IdentityServer/Logs/*
 src/IuguCoreIntegration.HttpApi.Host/Logs/*
 src/IuguCoreIntegration.HttpApi.Host/Logs/*
+src/IuguCoreIntegration.HttpApi.Host/appsettings.json

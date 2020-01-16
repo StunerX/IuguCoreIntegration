@@ -7,6 +7,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
+using IuguCoreIntegration.Utils;
+using IuguCoreIntegration.Invoices.Interfaces;
+using IuguCoreIntegration.Invoices;
 
 namespace IuguCoreIntegration
 {
@@ -16,6 +19,13 @@ namespace IuguCoreIntegration
         private readonly string Iugu_Password = "";
         private readonly string Iugu_BaseAddress = "https://api.iugu.com/v1";
 
+        private readonly IInvoiceAppService _invoiceAppService;
+
+        public ChargeAppService(IInvoiceAppService invoiceAppService)
+        {
+            _invoiceAppService = invoiceAppService;
+        }
+
         public async Task<DateTime> GetAsync()
         {
             return await Task.Run(() => DateTime.Now);
@@ -23,23 +33,37 @@ namespace IuguCoreIntegration
 
         public async Task PostAsync(string token)
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                body body = new body();
-                body.token = token;
-                body.email = "teste@teste.com";
-                body.items = new List<item>();
-                body.items.Add(new item()
+                charge _params = new charge();
+                _params.token = token;
+                _params.email = "administrativo@escritoriointeligente.com";
+                _params.items = new List<item>();
+                _params.items.Add(new item()
                 {
                     description = "Ressarcimento Plano 3 CNPJ",
-                    price_cents = 1000,
+                    price_cents = 69999,
                     quantity = 1
                 });
+                _params.payer = new payer()
+                {
+                    cpf_cnpj = "91.347.681/0001-14",
+                    name = "Severino e Isabelly Casa Noturna Ltda",
+                    address = new address()
+                    {
+                        city = "Birigüi",
+                        district = "Vila Isabel Marin",
+                        state = "SP",
+                        number = "407",
+                        street = "Rua Manoel de Carlis",
+                        zip_code = "16204-023",
+                    },
+                    email = "orcamento@severinoeisabellycasanoturnaltda.com.br",
+                    phone = "(18) 2998-6706"
+                };
+                _params.order_id = Guid.NewGuid().ToString();
 
-                var content = JsonConvert.SerializeObject(body, Formatting.Indented);
-
-                //JavaScriptSerializer serializer = new JavaScriptSerializer();
-                //var content = serializer.Serialize(body);
+                var content = JsonConvert.SerializeObject(_params, Formatting.Indented);
 
                 HttpMessageHandler handler = new HttpClientHandler()
                 {
@@ -66,6 +90,29 @@ namespace IuguCoreIntegration
                 using (StreamReader stream = new StreamReader(response.Content.ReadAsStreamAsync().Result))
                 {
                     responseResult = stream.ReadToEnd();
+
+                    try
+                    {
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+
+                    var json = JsonConvert.DeserializeObject<invoice>(responseResult);
+
+                    var invoice = new CreateUpdateInvoiceDto()
+                    {
+                        Message = json.message,
+                        InvoiceId = json.invoice_id,
+                        Success = json.success,
+                        Pdf = json.pdf,
+                        Url = json.url,
+                    };
+
+                    var result = await _invoiceAppService.CreateAsync(invoice);
                 }
             });
         }

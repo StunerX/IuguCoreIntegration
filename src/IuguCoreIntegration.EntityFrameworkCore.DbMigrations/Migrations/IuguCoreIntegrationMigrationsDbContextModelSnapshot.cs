@@ -19,16 +19,18 @@ namespace IuguCoreIntegration.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("IuguCoreIntegration.Charges.Invoice", b =>
+            modelBuilder.Entity("IuguCoreIntegration.Invoices.Invoice", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreationTime")
+                        .HasColumnName("CreationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatorId")
+                        .HasColumnName("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Error")
@@ -41,9 +43,11 @@ namespace IuguCoreIntegration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnName("LastModificationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("LastModifierId")
+                        .HasColumnName("LastModifierId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Message")
@@ -60,7 +64,7 @@ namespace IuguCoreIntegration.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppInvoices");
+                    b.ToTable("Invoices");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

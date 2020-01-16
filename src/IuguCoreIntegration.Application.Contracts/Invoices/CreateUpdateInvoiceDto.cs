@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Volo.Abp.Domain.Entities.Auditing;
 
 namespace IuguCoreIntegration.Invoices
 {
-    public class Invoice : AuditedEntity<Guid>
+    public class CreateUpdateInvoiceDto
     {
         public string Message { get; set; }
         public string Error { get; set; }
